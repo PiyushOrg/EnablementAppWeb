@@ -7,6 +7,7 @@ public class EventFormData {
 	String event_description;
 	String image_file;
 	String event_location;
+	String event_type;
 	
 	String score;
 	
@@ -15,54 +16,61 @@ public class EventFormData {
 	String session1_description;
 	String session1_starttime;
 	String session1_endtime;
+	String session1_points;
 	
 	String session2_name;
 	String session2_description;
 	String session2_starttime;
 	String session2_endtime;
+	String session2_points;
 
 	String session3_name;
 	String session3_description;
 	String session3_starttime;
 	String session3_endtime;
+	String session3_points;
 
 	String session4_name;
 	String session4_description;
 	String session4_starttime;
 	String session4_endtime;
+	String session4_points;
 	
 	String session5_name;
 	String session5_description;
 	String session5_starttime;
 	String session5_endtime;
+	String session5_points;
 	
 	String session6_name;
 	String session6_description;
 	String session6_starttime;
 	String session6_endtime;
+	String session6_points;
 	
 	String session7_name;
 	String session7_description;
 	String session7_starttime;
 	String session7_endtime;
+	String session7_points;
 	
 	String session8_name;
 	String session8_description;
 	String session8_starttime;
 	String session8_endtime;
+	String session8_points;
 	
 	String session9_name;
 	String session9_description;
 	String session9_starttime;
 	String session9_endtime;
+	String session9_points;
 	
 	String session10_name;
 	String session10_description;
 	String session10_starttime;
 	String session10_endtime;
-	
-	
-	
+	String session10_points;
 	public String getEvent_id() {
 		return event_id;
 	}
@@ -87,12 +95,25 @@ public class EventFormData {
 	public void setImage_file(String image_file) {
 		this.image_file = image_file;
 	}
-	
 	public String getEvent_location() {
 		return event_location;
 	}
 	public void setEvent_location(String event_location) {
 		this.event_location = event_location;
+	}
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
+	
+	
+	public String getEvent_type() {
+		return event_type;
+	}
+	public void setEvent_type(String event_type) {
+		this.event_type = event_type;
 	}
 	public String getSession1_name() {
 		return session1_name;
@@ -118,6 +139,12 @@ public class EventFormData {
 	public void setSession1_endtime(String session1_endtime) {
 		this.session1_endtime = session1_endtime;
 	}
+	public String getSession1_points() {
+		return session1_points;
+	}
+	public void setSession1_points(String session1_points) {
+		this.session1_points = session1_points;
+	}
 	public String getSession2_name() {
 		return session2_name;
 	}
@@ -141,6 +168,12 @@ public class EventFormData {
 	}
 	public void setSession2_endtime(String session2_endtime) {
 		this.session2_endtime = session2_endtime;
+	}
+	public String getSession2_points() {
+		return session2_points;
+	}
+	public void setSession2_points(String session2_points) {
+		this.session2_points = session2_points;
 	}
 	public String getSession3_name() {
 		return session3_name;
@@ -166,6 +199,12 @@ public class EventFormData {
 	public void setSession3_endtime(String session3_endtime) {
 		this.session3_endtime = session3_endtime;
 	}
+	public String getSession3_points() {
+		return session3_points;
+	}
+	public void setSession3_points(String session3_points) {
+		this.session3_points = session3_points;
+	}
 	public String getSession4_name() {
 		return session4_name;
 	}
@@ -189,6 +228,12 @@ public class EventFormData {
 	}
 	public void setSession4_endtime(String session4_endtime) {
 		this.session4_endtime = session4_endtime;
+	}
+	public String getSession4_points() {
+		return session4_points;
+	}
+	public void setSession4_points(String session4_points) {
+		this.session4_points = session4_points;
 	}
 	public String getSession5_name() {
 		return session5_name;
@@ -214,6 +259,12 @@ public class EventFormData {
 	public void setSession5_endtime(String session5_endtime) {
 		this.session5_endtime = session5_endtime;
 	}
+	public String getSession5_points() {
+		return session5_points;
+	}
+	public void setSession5_points(String session5_points) {
+		this.session5_points = session5_points;
+	}
 	public String getSession6_name() {
 		return session6_name;
 	}
@@ -237,6 +288,12 @@ public class EventFormData {
 	}
 	public void setSession6_endtime(String session6_endtime) {
 		this.session6_endtime = session6_endtime;
+	}
+	public String getSession6_points() {
+		return session6_points;
+	}
+	public void setSession6_points(String session6_points) {
+		this.session6_points = session6_points;
 	}
 	public String getSession7_name() {
 		return session7_name;
@@ -262,6 +319,12 @@ public class EventFormData {
 	public void setSession7_endtime(String session7_endtime) {
 		this.session7_endtime = session7_endtime;
 	}
+	public String getSession7_points() {
+		return session7_points;
+	}
+	public void setSession7_points(String session7_points) {
+		this.session7_points = session7_points;
+	}
 	public String getSession8_name() {
 		return session8_name;
 	}
@@ -285,6 +348,12 @@ public class EventFormData {
 	}
 	public void setSession8_endtime(String session8_endtime) {
 		this.session8_endtime = session8_endtime;
+	}
+	public String getSession8_points() {
+		return session8_points;
+	}
+	public void setSession8_points(String session8_points) {
+		this.session8_points = session8_points;
 	}
 	public String getSession9_name() {
 		return session9_name;
@@ -310,6 +379,12 @@ public class EventFormData {
 	public void setSession9_endtime(String session9_endtime) {
 		this.session9_endtime = session9_endtime;
 	}
+	public String getSession9_points() {
+		return session9_points;
+	}
+	public void setSession9_points(String session9_points) {
+		this.session9_points = session9_points;
+	}
 	public String getSession10_name() {
 		return session10_name;
 	}
@@ -334,12 +409,13 @@ public class EventFormData {
 	public void setSession10_endtime(String session10_endtime) {
 		this.session10_endtime = session10_endtime;
 	}
-	public String getScore() {
-		return score;
+	public String getSession10_points() {
+		return session10_points;
 	}
-	public void setScore(String score) {
-		this.score = score;
+	public void setSession10_points(String session10_points) {
+		this.session10_points = session10_points;
 	}
+	
 	
 	
 		

@@ -3,8 +3,9 @@ package com.kony;
 
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,13 +14,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MailClient {
-
-    public static void main(String[]args) throws IOException {
-
-        final String username = "piyush.mittal@kony.com";
-        final String password = "Krsna@29";
+	Session session = null;
+	MailClient(){
+		final String username = "piyush.mittal@kony.com";
+        final String password = "*****";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -27,44 +29,58 @@ public class MailClient {
         props.put("mail.smtp.host", "outlook.office365.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props,
+        session = Session.getInstance(props,
           new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
+            @Override
+			protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
           });
+		
+	}
 
-        try {
+    public static void main(String[]args) throws IOException {
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("piyush.mittal@kony.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                InternetAddress.parse("piyush.mittal@kony.com"));//Enter the recipient mail address
-            message.setSubject("Welcome");
-            message.setText("HI");
-            String everything;
-            BufferedReader br = new BufferedReader(new FileReader("welcome.html"));
-            try {
-                StringBuilder sb = new StringBuilder();
-                String line = br.readLine();
+     new MailClient().sendEventMail("Bugbash", "piyush.mittal@kony.com");
+       
+    }
+    
+    
+	
+	void sendEventMail(String email,String event_name ) throws IOException{
+    	 try {
 
-                while (line != null) {
-                    sb.append(line);
-                   // sb.append(System.lineSeparator());
-                    line = br.readLine();
-                }
-                everything = sb.toString().replace("ActivateAccount", "Piyush Mittal");
-            } finally {
-                br.close();
-            }
-            message.setContent(everything, "text/html; charset=utf-8");
+             Message message = new MimeMessage(session);
+             message.setFrom(new InternetAddress("piyush.mittal@kony.com"));
+             message.setRecipients(Message.RecipientType.TO,
+                 InternetAddress.parse(email));//Enter the recipient mail address
+             message.setSubject("Don't Reply: Welcome");
+             message.setText("HI");
+             String everything;
+             InputStream in = this.getClass().getResourceAsStream("welcome.html");
+             
+             BufferedReader br = new BufferedReader(new InputStreamReader(in));
+             try {
+                 StringBuilder sb = new StringBuilder();
+                 String line = br.readLine();
 
-            Transport.send(message);
+                 while (line != null) {
+                     sb.append(line);
+                    // sb.append(System.lineSeparator());
+                     line = br.readLine();
+                 }
+                 everything = sb.toString().replace("ActivateAccount", event_name+" event subscribed.");
+             } finally {
+                 br.close();
+             }
+             message.setContent(everything, "text/html; charset=utf-8");
 
-            System.out.println("Done");
+             Transport.send(message);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+             System.out.println("Done");
+
+         } catch (MessagingException e) {
+             throw new RuntimeException(e);
+         }
     }
 }

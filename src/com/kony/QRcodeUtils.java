@@ -69,10 +69,9 @@ public class QRcodeUtils {
 	}
 	
 	public byte[] getQRImage(String myCodeText){
-		//String filePath = "/Users/kh2132/Desktop/CrunchifyQR.png";
+		
 		int size = 250;
-		//String fileType = "png";
-		//File myFile = new File(filePath);
+		
 		try {
 			
 			Map<EncodeHintType, Object> hintMap = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);

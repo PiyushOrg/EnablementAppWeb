@@ -1,10 +1,8 @@
 package com.kony.hibernate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,23 +38,28 @@ public class Events {
 	String status;
 	int max_score;
 	String location;
-	ArrayList<Integer> ratingList;
+	
 	int averageRating;
 	
 	String event_type;
 	
 	ArrayList<String> likes = new ArrayList<String>();
+	
 	@ElementCollection
 	@GenericGenerator(name = "sequence-gen", strategy ="sequence")
 	@CollectionId(columns = {@Column(name = "session_id")}, generator = "sequence-gen", type = @Type(type="long"))
 	Collection<Sessions> sessions = new ArrayList<Sessions>();
 	
-	HashMap<String, Integer> user_scores = new HashMap<String, Integer>();
+	@Column(columnDefinition = "LONGBLOB")
+	HashMap<String, Integer> user_scores =  new HashMap<String, Integer>();
+	@Column(columnDefinition = "LONGBLOB")
+	HashMap<String, Integer> users_rank  =   new HashMap<String, Integer>();
 	
-	HashMap<String, Integer> users_rank = new HashMap<String, Integer>();
+	@Column(columnDefinition = "LONGBLOB")
+	HashMap<String,Integer> ratingList   =   new HashMap<String, Integer>();
 	
 	public Events(){
-		this.ratingList = new ArrayList<Integer>();
+		this.ratingList = new HashMap<String,Integer>();
 		this.likes = new ArrayList<String>();
 		this.user_scores = new HashMap<String, Integer>();
 		
@@ -140,23 +143,26 @@ public class Events {
 		this.location = location;
 	}
 
-	public ArrayList<Integer> getRatingList() {
+	
+	public HashMap<String, Integer> getRatingList() {
 		return ratingList;
 	}
 
-	public void setRatingList(ArrayList<Integer> ratingList) {
+
+	public void setRatingList(HashMap<String, Integer> ratingList) {
 		this.ratingList = ratingList;
 	}
 
-	
+
 	public int getAverageRating() {
 		int count = 0;
 		int sum = 0;
-		for(int rate :getRatingList()){
+		for(int rate :getRatingList().values()){
 			sum += rate;
 			count++;
 		}
-		
+		if (count == 0)
+			return 0;
 		return sum/count;
 	}
 
@@ -190,15 +196,15 @@ public class Events {
 		TreeSet<Integer> sortedscore = new TreeSet<Integer>();
 		Iterator<Entry<String, Integer>> it = scoreMap.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
+	        Map.Entry pair = it.next();
 	       sortedscore.add((Integer) pair.getValue());
 	    }
 	   
-	    int rank = 1;
+	    int rank = sortedscore.size();
 	   
 	    HashMap<Integer, Integer> scoreRankMap = new HashMap<Integer, Integer>();
 	   for(int i : sortedscore){
-		   scoreRankMap.put(i, rank++);
+		   scoreRankMap.put(i, rank--);
 	   }
 	
 	   HashMap<String, Integer> rankMap = new HashMap<String, Integer>();

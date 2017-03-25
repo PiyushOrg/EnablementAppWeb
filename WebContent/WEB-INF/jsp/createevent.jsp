@@ -25,13 +25,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kony EVENTS | ADMIN PANEL</title>
 <style type="text/css">
-    <%@include file="/resources/CSS/style.css" %>
-    </style>
+<%@
+include file ="/resources/CSS/style.css"
+%>
+</style>
 
-<script type="text/javascript"
-	src="${jsone}"></script>
-<script type="text/javascript"
-	src="${jstwo}"></script>
+<script type="text/javascript" src="${jsone}"></script>
+<script type="text/javascript" src="${jstwo}"></script>
 <script type="text/javascript">
 	ddaccordion.init({
 		headerclass : "submenuheader", //Shared CSS class name of headers group
@@ -44,8 +44,7 @@
 		animatedefault : false, //Should contents open by default be animated into view?
 		persiststate : true, //persist state of opened contents within browser session?
 		toggleclass : [ "", "" ], //Two CSS classes to be applied to the header when it's collapsed and expanded, respectively ["class1", "class2"]
-		togglehtml : [ "suffix",
-				"<img src='${imgtwo}' class='statusicon' />",
+		togglehtml : [ "suffix", "<img src='${imgtwo}' class='statusicon' />",
 				"<img src='${imgthree}' class='statusicon' />" ], //Additional HTML added to the header when it's collapsed and expanded, respectively  ["position", "html1", "html2"] (see docs)
 		animatespeed : "fast", //speed of animation: integer in milliseconds (ie: 200), or keywords "fast", "normal", or "slow"
 		oninit : function(headers, expandedindices) { //custom code to run when headers have initalized
@@ -57,8 +56,7 @@
 	})
 </script>
 
-<script type="text/javascript"
-	src="${jsthree}"></script>
+<script type="text/javascript" src="${jsthree}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.ask').jConfirmAction();
@@ -66,11 +64,12 @@
 </script>
 
 
-<script language="javascript" type="text/javascript"
-	src="${jsfour}"></script>
+<script language="javascript" type="text/javascript" src="${jsfour}"></script>
 <style type="text/css">
-    <%@include file="/resources/CSS/niceforms-default.css" %>
-    </style>
+<%@
+include file="/resources/CSS/niceforms-default.css"
+%>
+</style>
 </head>
 <body>
 
@@ -78,8 +77,7 @@
 
 		<div class="header">
 			<div class="logo">
-				<a href="#"><img src="${crunchifyJS}"
-					alt="" title="" border="0" /></a>
+				<a href="#"><img src="${crunchifyJS}" alt="" title="" border="0" /></a>
 			</div>
 
 			<div class="right_header">
@@ -92,10 +90,10 @@
 
 			<div class="menu">
 				<ul>
-					<li><a  href="createevent">Admin Home</a></li>
+					<li><a href="createevent">Admin Home</a></li>
 					<li><a href="${leaderboardpage }">LEADERBOARD</a></li>
-					<li><a class="current" href="">EVENTS<!--[if IE 7]><!--></a>
-					<!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
+					<li><a class="current" href="">EVENTS<!--[if IE 7]><!--></a> <!--<![endif]-->
+						<!--[if lte IE 6]><table><tr><td><![endif]-->
 						<ul>
 							<li><a href="" title="">CREATE EVENT</a></li>
 							<li><a href="${editpage}" title="">EDIT EVENT</a></li>
@@ -124,24 +122,48 @@
 					<h2>Create New Event</h2>
 					<div class="form">
 						<form action="/EnablementAppWeb/addEvent" method="post"
-							class="niceform" id="myform">
+							class="niceform" id="myform" name="myform">
 							<fieldset>
 								<dl>
 									<dt>
-										<label for="name" > Name of the Event </label>
+										<label for="name"> Name of the Event </label>
 									</dt>
 									<dd>
-										<input type="text" name="event_name" required/>
+										<input type="text" name="event_name" required />
 									</dd>
 									<dt>
 										<label for="event_description"> Description </label>
 									</dt>
 									<dd>
-										<input type="text" name="event_description" />
+										<input type="text" name="event_description" required />
 									</dd>
-									<dt><label for="event_description"> Location </label>
-									</dt><dd><input type="text" name="event_location" />
+									<dt>
+										<label for="event_description"> Location </label>
+									</dt>
+									<dd>
+										<input type="text" name="event_location" required />
 									</dd>
+									<dt>
+										<label for="name"> Type of the Event </label>
+									</dt>
+									<dd>
+										<select name="event_type">
+											<option value="Hackathon">Hackathon</option>
+											<option value="FeatureOverview">Feature Overview</option>
+											<option value="TechnicalDeepdive">Technical Deepdive</option>
+											<option value="Training">Training</option>
+										</select>
+									</dd>
+									<!-- <dt>
+										<label for="max_score"> Maximum Score</label>
+									</dt>
+									<dd>
+										<input type="text" name="max_score" id="max_score"></input>
+									</dd> -->
+
+
+
+
 
 									<!-- dt>
 										<label for="upload">Upload a File:</label>
@@ -150,7 +172,8 @@
 										<input type="file" name="image_file"/>
 									</dd> -->
 									<label for="Stages"><h2>Add/Remove Sessions</h2></label>
-									<br> <script type="text/javascript">
+									<br>
+									<script type="text/javascript">
 										$(document)
 												.ready(
 														function() {
@@ -169,20 +192,20 @@
 																								"id",
 																								'TextBoxDiv'
 																										+ counter);
-																										
-																										
+
 																				newTextBoxDiv
 																						.after()
-																						.html( 
-																								'<h5><label>Session '
+																						.html(
+																								'<h5><label>Session  '
 																										+ counter
-																										+ ' : </label>'
-																										+ '<input type="text" class="form" name="session1_name"  ><dl><dl><label> Description :</label><input type="text" class="form"  name="session1_description"><dl><label>Start Date&Time</label><input type="datetime-local" class="form" name="session1_starttime"  value="2016-01-01T00:00:00" /><dl><label>End Date&Time</label><input type="datetime-local" class="form" name="session1_endtime" value="2016-01-01T00:00:00" /><hr><hr>');
+																										+ ' Name: </label>'
+																										+ '<input type="text" class="form" name="session'+counter+'_name"  ><dl><dl><label> Description :</label><input type="text" class="form"  name="session'+counter+'_description"><dl><label>Start Date&Time</label><input type="datetime-local" class="form" name="session'+counter+'_starttime"  value="2017-01-01T00:00:00" /><dl><label>End Date&Time</label><input type="datetime-local" class="form" name="session'+counter+'_endtime" value="2017-01-01T00:00:00" /><dl><label> Points :</label><input type="number" class="form"  name="session'+counter+'_points" id ="session1_points"><hr><hr>');
 																				newTextBoxDiv
 																						.appendTo("#TextBoxesGroup");
 																				counter++;
+
 																			});
-																			
+
 															$("#removeButton")
 																	.click(
 																			function() {
@@ -198,17 +221,18 @@
 																			});
 														});
 									</script>
-										<div id='TextBoxesGroup'>
-											<div id="TextBoxDiv1"></div>
-										</div> <input type='button' value='Add Stage' id='addButton'/>
-											<input type='button' value='Remove Stage' id='removeButton'/>
-												<dl>
-													<dt>
-														<dt>
-															<input type='submit' value='SUBMIT' id='SUBMIT'>
-														</dt>
-													</dt>
-												</dl>
+									<div id='TextBoxesGroup'>
+										<div id="TextBoxDiv1"></div>
+									</div>
+									<input type='button' value='Add Stage' id='addButton' />
+									<input type='button' value='Remove Stage' id='removeButton' />
+									<dl>
+										<dt>
+										<dt>
+											<input type='submit' value='SUBMIT' id='SUBMIT'>
+										</dt>
+
+									</dl>
 							</fieldset>
 
 						</form>

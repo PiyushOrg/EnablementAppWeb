@@ -54,18 +54,17 @@ public class ScheduledTasks extends TimerTask {
 			if (field.getKey().equals("claims_token")) {
 				claimsToken = field.getValue().get("value").asText();
 			}
-
 		}
 		return claimsToken;
-
 	}
 
-	public static void triggerPush(ArrayList<String> ksids) throws ClientProtocolException, IOException {
-		String baseUri = "https://mobilefabric-demo.messaging.konycloud.com/api/v1/messages/push";
+	public static void triggerPush(ArrayList<String> ksids, String message) throws ClientProtocolException, IOException {
+		//https://mobilefabric-demo1.messaging.konycloud.com/api/v1
+		String baseUri = "https://mobilefabric-demo1.messaging.konycloud.com/api/v1/messages/push";
 		String claimsToken = getClaimsToken();
 		for (int i = 0; i < ksids.size(); i++) {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
-			String pushPayload = "{\"messageRequest\":{\"appId\":\"47be03c7-840b-44a6-a161-a29e8903bdbd\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\"Test Message\"}}}}}";
+			String pushPayload = "{\"messageRequest\":{\"appId\":\"fb8acc5a-bc4e-42b2-a331-bdddb672bd60\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\""+message+"\"}}}}}";
 			HttpPost post = new HttpPost(baseUri + "");// "/kpns/api/v1/messages/push");
 			post.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 			post.setHeader("X-Kony-Authorization", claimsToken);
@@ -81,8 +80,12 @@ public class ScheduledTasks extends TimerTask {
 	public static void main(String args[]) {
 		try {
 			ArrayList<String> ksids = new ArrayList<String>();
-			ksids.add("6860722726240578234");
-			triggerPush(ksids);
+			//8966137396409634755
+			ksids.add("8966137396409634755");
+//			ksids.add("6861502278358918041");
+//			ksids.add("8423325159359250366");
+			
+			triggerPush(ksids,"Testing");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

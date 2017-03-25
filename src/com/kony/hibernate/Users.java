@@ -1,13 +1,9 @@
 package com.kony.hibernate;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.ElementCollection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import org.springframework.stereotype.Component;
 
 //@Component
 @Entity
@@ -19,8 +15,10 @@ public class Users {
 	int rank;
 	byte[] image;
 	
+	@Column(columnDefinition = "LONGBLOB") 
 	ArrayList<String> KSID;
 	
+	@Column(columnDefinition = "LONGBLOB") 
 	ArrayList<Integer> myevents;
 	
 	public Users(){

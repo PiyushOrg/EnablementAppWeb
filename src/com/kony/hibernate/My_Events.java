@@ -1,8 +1,6 @@
 package com.kony.hibernate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.persistence.Embeddable;
 import javax.persistence.Id;
 

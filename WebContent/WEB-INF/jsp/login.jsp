@@ -82,7 +82,7 @@
          
          <a href="#" class="forgot_pass">Forgot password</a> 
          
-         <form action="" method="post" class="niceform">
+         <form action="/EnablementAppWeb/createevent" method="post" class="niceform">
          
                 <fieldset>
                     <dl>

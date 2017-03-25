@@ -230,64 +230,15 @@
 									
 										<input type="text" name="event_description" id="description"></input></dl>
 										
-																			<label for="Stages"><h2>Add/Remove Sessions</h2></label>
-									<br> <script type="text/javascript">
-										$(document)
-												.ready(
-														function() {
-															var counter = 1;
-															$("#addButton")
-																	.click(
-																			function() {
-																				if (counter > 8) {
-																					alert("Only 8 Stages allowed");
-																					return false;
-																				}
-																				var newTextBoxDiv = $(
-																						document
-																								.createElement('div'))
-																						.attr(
-																								"id",
-																								'TextBoxDiv'
-																										+ counter);
-																										
-																										
-																				newTextBoxDiv
-																						.after()
-																						.html( 
-																								'<h5><label>Session '
-																										+ counter
-																										+ ' : </label>'
-																										+ '<input type="text" class="form" name="session1_name"  ><dl><dl><label> Description :</label><input type="text" class="form"  name="session1_description"><dl><label>Start Date&Time</label><input type="datetime-local" class="form" name="session1_starttime"  value="2016-01-01T00:00:00" /><dl><label>End Date&Time</label><input type="datetime-local" class="form" name="session1_endtime" value="2016-01-01T00:00:00" /><hr><hr>');
-																				newTextBoxDiv
-																						.appendTo("#TextBoxesGroup");
-																				counter++;
-																			});
-																			
-															$("#removeButton")
-																	.click(
-																			function() {
-																				if (counter == 1) {
-																					alert("There should be atleast one stage");
-																					return false;
-																				}
-																				counter--;
-																				$(
-																						"#TextBoxDiv"
-																								+ counter)
-																						.remove();
-																			});
-														});
-									</script>
-										<div id='TextBoxesGroup'>
-											<div id="TextBoxDiv1"></div>
-										</div> <input type='button' value='Add Stage' id='addButton'/>
-											<input type='button' value='Remove Stage' id='removeButton'/>
-												<dl>
-													<dt>
-														<dt>
-															<input type='submit' value='SUBMIT' id='SUBMIT'>
-														</dt>
+																
+													</dt>
+													dl><dt>
+									
+										<label for="Location"> Location </label>		</dt>	</dl>				
+									
+										<input type="text" name="event_location" id="location"></input></dl>
+										
+																
 													</dt>
 												</dl>
 									</fieldset>
