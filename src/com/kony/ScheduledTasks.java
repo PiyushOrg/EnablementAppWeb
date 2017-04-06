@@ -34,12 +34,12 @@ public class ScheduledTasks extends TimerTask {
 	}
 
 	public static String getClaimsToken() throws ClientProtocolException, IOException {
-		String baseUri = "https://accounts.auth.konycloud.com/login";
-		String userId = "mukul.mudgil@kony.com";
-		String password = "Parm@2802";
+		String baseUri = "https://accounts.auth.konycloud.com/login";//"https://accounts.auth.qa-konycloud.com/login";
+		String userId = "piyush.mittal@kony.com";
+		String password = "Krsna@29";
 		String claimsToken = null;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		HttpPost post = new HttpPost(baseUri + "");// "/authService/accounts/login");
+		HttpPost post = new HttpPost(baseUri +  "");///authService/accounts/login");
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("userid", userId));
 		nvps.add(new BasicNameValuePair("password", password));
@@ -47,7 +47,9 @@ public class ScheduledTasks extends TimerTask {
 		CloseableHttpResponse httpResponse = httpclient.execute(post);
 		String response = EntityUtils.toString(httpResponse.getEntity());
 		ObjectMapper objectMapper = new ObjectMapper();
+		//System.out.println(response);
 		JsonNode jsonRootNode = objectMapper.readTree(response);
+		
 		Iterator<Entry<String, JsonNode>> jsonFieldsIter = jsonRootNode.fields();
 		while (jsonFieldsIter.hasNext()) {
 			Entry<String, JsonNode> field = jsonFieldsIter.next();
@@ -60,11 +62,12 @@ public class ScheduledTasks extends TimerTask {
 
 	public static void triggerPush(ArrayList<String> ksids, String message) throws ClientProtocolException, IOException {
 		//https://mobilefabric-demo1.messaging.konycloud.com/api/v1
-		String baseUri = "https://mobilefabric-demo1.messaging.konycloud.com/api/v1/messages/push";
+		//https://marketplaceassets.messaging.qa-konycloud.com
+		String baseUri = "https://corpconnect.messaging.konycloud.com/api/v1/messages/push";
 		String claimsToken = getClaimsToken();
 		for (int i = 0; i < ksids.size(); i++) {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
-			String pushPayload = "{\"messageRequest\":{\"appId\":\"fb8acc5a-bc4e-42b2-a331-bdddb672bd60\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\""+message+"\"}}}}}";
+			String pushPayload = "{\"messageRequest\":{\"appId\":\"4144295a-040f-47ff-a51e-a1e5ba8d2759\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\""+message+"\"}}}}}";
 			HttpPost post = new HttpPost(baseUri + "");// "/kpns/api/v1/messages/push");
 			post.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 			post.setHeader("X-Kony-Authorization", claimsToken);
@@ -72,7 +75,7 @@ public class ScheduledTasks extends TimerTask {
 			CloseableHttpResponse httpResponse = httpclient.execute(post);
 
 			String response = EntityUtils.toString(httpResponse.getEntity());
-			System.out.println(response);
+			//System.out.println(response);
 		}
 
 	}
@@ -81,9 +84,9 @@ public class ScheduledTasks extends TimerTask {
 		try {
 			ArrayList<String> ksids = new ArrayList<String>();
 			//8966137396409634755
-			ksids.add("8966137396409634755");
-//			ksids.add("6861502278358918041");
-//			ksids.add("8423325159359250366");
+			ksids.add("8285657837679045502");
+			ksids.add("8285658679695539674");
+			ksids.add("8285629191625397758");
 			
 			triggerPush(ksids,"Testing");
 		} catch (IOException e) {

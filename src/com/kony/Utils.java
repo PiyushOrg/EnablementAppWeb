@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -33,6 +34,8 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -92,22 +95,31 @@ public class Utils {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response registerUsers(@PathParam("email") String email, @PathParam("name") String name) {
 
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
+		Session session = null;
+		
+		try {
+			session = factory.openSession();
+			Transaction t = session.beginTransaction();
 
-		Users user = session.get(Users.class, email);
-		if (user != null) {
-			session.close();
-			return Response.status(200).entity("{\"message\":\"User Already Exist\"}").build();
-		} else {
-			user = new Users();// (Users) context.getBean("users");
-			user.setEmail(email.toLowerCase());
-			user.setName(name);
-			session.save(user);
+			Users user = session.get(Users.class, email);
+			if (user != null) {
+				session.close();
+				return Response.status(200).entity("{\"message\":\"User Already Exist\"}").build();
+			} else {
+				user = new Users();// (Users) context.getBean("users");
+				user.setEmail(email.toLowerCase());
+				user.setName(name);
+				session.save(user);
 
-			t.commit();
-			session.close();
+				t.commit();
+				session.close();
 
+			}
+			
+		} catch (HibernateException e) {
+			if (session != null) {
+				session.close();
+			}
 		}
 		return Response.status(200).entity("{\"message\":\"User Added Successfully\"}").build();
 	}
@@ -125,22 +137,16 @@ public class Utils {
 		if (user.getMyevents().contains(eventid)) {
 			// mc.sendEventMail("event.getName()",userid);
 			session.close();
-			// System.out.println("\nInside method\n");
-			// MailQueue.getInstance().add(userid, "Testing");
-			// this.mailContent.put(userid, "event.getName()");
-			// System.out.println("\nInside method\n"+mailContent);
-			// mailContent.
 			return Response.status(200).entity("{\"message\":\"Already enrolled.\"}").build();
 		}
 		user.getMyevents().add(eventid);
 		Events event = session.get(Events.class, eventid);
 		event.getUser_scores().put(userid, 0);
 		event.getUsers_rank().put(userid, 0);
-		MailQueue.getInstance().add(userid, event.getName());
+		MailQueue.getInstance().add(userid, event.getName()+" event subscribed.\n"+event.getDescription());
 
 		t.commit();
 		session.close();
-		// mc.sendEventMail(event.getName(),userid);
 		return Response.status(200).entity("{\"message\":\"Enrolled successfully.\"}").build();
 	}
 
@@ -257,7 +263,29 @@ public class Utils {
 		session.close();
 		return Response.status(200).entity("{\"message\":\"Feedback added successfully\"}").build();
 	}
+	
+	@POST
+	@Path("/query")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response submitFeedback(@FormParam("query") String query_data) throws JsonProcessingException {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
 
+		Query query = session.createQuery(query_data);
+		
+		
+			int rowsAffected = query.executeUpdate();
+			if (rowsAffected > 0) {
+				t.commit();
+				session.close();
+				return Response.status(200).entity("{\"message\":\""+rowsAffected + " rows(s) were effected\"}").build();
+			}
+		
+		
+	    session.close();
+		return Response.status(200).entity("{\"message\":\"Query was not successful\"}").build();
+	}
 	@POST
 	@Path("/profilepic")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -299,13 +327,20 @@ public class Utils {
 	}
 
 	@GET
-	@Path("/showFeedbacks")
+	@Path("/showFeedbacks/{event_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response showFeedbacks() throws ClientProtocolException, IOException {
+	public Response showFeedbacks(@PathParam("event_id") String event_id) throws ClientProtocolException, IOException {
 		Session session = factory.openSession();
 		session.beginTransaction();
 		ObjectMapper mapper = new ObjectMapper();
-		List<Feedbacks> feedbacks = session.createCriteria(Feedbacks.class).list();
+		List<Feedbacks> feedbacks;
+		if(event_id.equals("all"))
+		  feedbacks = session.createCriteria(Feedbacks.class).list();
+		else{
+			Criteria cr = session.createCriteria(Feedbacks.class);
+			cr.add(Restrictions.eq("eventId", Integer.parseInt(event_id)));
+			feedbacks = cr.list();
+		}
 		session.close();
 		return Response.status(200).entity(mapper.writeValueAsString(feedbacks)).build();
 	}
@@ -523,4 +558,31 @@ public class Utils {
 		return Response.status(200).entity("{\"message\":\"User and events rank updated\"}").build();
 	}
 
+	@GET
+	@Path("/deleteEvent/{eventid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteEvent(@PathParam("eventid") Integer eventid)
+			throws IOException {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+
+		
+		Events event = session.get(Events.class, eventid);
+
+		session.delete(event);
+		List<QRInfo> qrInfo = session.createCriteria(QRInfo.class).list();
+		
+		for (QRInfo qr : qrInfo) {
+			if(qr.getEvent_name().equals(event.getName()))
+			  session.delete(qr);
+		}
+		t.commit();
+		session.close();
+		return Response.status(200).entity("{\"message\":\"Event deleted\"}").build();
+	}
+	
+	public static void main(String args[]){
+		//MailQueue.getInstance().add("piyush.mittal@kony.com", "Bugbash event subscribed.\n");
+
+	}
 }

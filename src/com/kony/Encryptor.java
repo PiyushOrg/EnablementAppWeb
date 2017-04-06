@@ -97,6 +97,7 @@ public class Encryptor {
         String initVector = "RandomInitVector"; // 16 bytes IV
 
         System.out.println(decrypt(key, initVector,
-                encrypt(key, initVector, "Sample2,Sample2,349839")));
+                encrypt(key, initVector, "ESS Application walk through,Application walk through,349839")));
+        System.out.println(decrypt(key, initVector,"o8RSYwgI4MITk7nDq2vTlqZP2Zh7t8IcKWuw3NVl7BqFNAw2Zlb7MOsEZTZHQIMdFoM6REUiygoOM9HXkwvTuQ=="));
     }
 }

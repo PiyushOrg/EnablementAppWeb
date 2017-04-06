@@ -73,7 +73,7 @@ public class EventController {
 
 	@RequestMapping(value = "/addEvent", method = RequestMethod.POST)
 	public String eventAdd(@ModelAttribute("SpringWeb") EventFormData eventFormData, ModelMap model) throws ParseException {
-		System.out.println("Hello");
+		//System.out.println("Hello");
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		

@@ -2,20 +2,22 @@ package com.kony.hibernate;
 
 public class Login {
 	
-	String username;
-	String password;
-	public String getUsername() {
-		return username;
+	String userid;
+	String pswd;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public String getPassword() {
-		return password;
+	public String getPswd() {
+		return pswd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPswd(String pswd) {
+		this.pswd = pswd;
 	}
+	
+	
 	
 	
 

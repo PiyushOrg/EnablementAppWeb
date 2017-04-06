@@ -25,9 +25,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Kony EVENTS | ADMIN PANEL</title>
 <style type="text/css">
-<%@
-include file ="/resources/CSS/style.css"
-%>
+<%@include file="/resources/CSS/style.css"%>
 </style>
 
 <script type="text/javascript" src="${jsone}"></script>
@@ -66,9 +64,7 @@ include file ="/resources/CSS/style.css"
 
 <script language="javascript" type="text/javascript" src="${jsfour}"></script>
 <style type="text/css">
-<%@
-include file="/resources/CSS/niceforms-default.css"
-%>
+<%@include file="/resources/CSS/niceforms-default.css"%>
 </style>
 </head>
 <body>
@@ -135,7 +131,8 @@ include file="/resources/CSS/niceforms-default.css"
 										<label for="event_description"> Description </label>
 									</dt>
 									<dd>
-										<input type="text" name="event_description" required />
+										<!-- <input type="textarea" name="event_description" required /> -->
+										<textarea rows="6" cols="50" name="event_description"></textarea>
 									</dd>
 									<dt>
 										<label for="event_description"> Location </label>

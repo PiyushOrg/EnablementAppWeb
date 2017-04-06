@@ -41,13 +41,13 @@ public class MailClient {
 
     public static void main(String[]args) throws IOException {
 
-     new MailClient().sendEventMail("Bugbash", "piyush.mittal@kony.com");
+     new MailClient().sendEventMail( "piyush.mittal@kony.com","Bugbash");
        
     }
     
     
 	
-	void sendEventMail(String email,String event_name ) throws IOException{
+	void sendEventMail(String email,String event_desc) throws IOException{
     	 try {
 
              Message message = new MimeMessage(session);
@@ -69,7 +69,7 @@ public class MailClient {
                     // sb.append(System.lineSeparator());
                      line = br.readLine();
                  }
-                 everything = sb.toString().replace("ActivateAccount", event_name+" event subscribed.");
+                 everything = sb.toString().replace("ActivateAccount", event_desc);
              } finally {
                  br.close();
              }
@@ -77,7 +77,7 @@ public class MailClient {
 
              Transport.send(message);
 
-             System.out.println("Done");
+             //System.out.println("Done");
 
          } catch (MessagingException e) {
              throw new RuntimeException(e);

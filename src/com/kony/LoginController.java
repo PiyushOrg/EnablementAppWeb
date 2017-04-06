@@ -19,14 +19,14 @@ public class LoginController {
 		return new ModelAndView("login", "coommand", new Login());
 	}
 	
-	@RequestMapping(value = "/addLogin", method = RequestMethod.POST)
+	@RequestMapping(value = "/loginSuccess", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Login login, 
 	   ModelMap model) {
-	      model.addAttribute("userid", login.getUsername());
-	      model.addAttribute("pswd", login.getPassword());
-	      
-	      System.out.println("Username is "+login.getUsername());
-	      
-	      return "result";
+	     
+	      System.out.println("Username is "+login.getUserid());
+	      if (login.getUserid().equals("admin@kony.com") && login.getPswd().equals("Kony@2017"))
+	      return "createevent";
+	      else 
+	    	  return "login";
 	   }
 }

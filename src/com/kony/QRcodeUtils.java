@@ -25,8 +25,8 @@ public class QRcodeUtils {
 	// Tutorial: http://zxing.github.io/zxing/apidocs/index.html
  
 	public static void main(String[] args) {
-		String myCodeText = "33,Kony Vizualiser first session";
-		String filePath = "/Users/kh2132/Desktop/CrunchifyQR1.png";
+		String myCodeText = "o8RSYwgI4MITk7nDq2vTlqZP2Zh7t8IcKWuw3NVl7BqFNAw2Zlb7MOsEZTZHQIMdFoM6REUiygoOM9HXkwvTuQ==";
+		String filePath = "/Users/kh2132/Desktop/ESSApplication.png";
 		int size = 250;
 		String fileType = "png";
 		File myFile = new File(filePath);
