@@ -34,9 +34,11 @@ public class ScheduledTasks extends TimerTask {
 	}
 
 	public static String getClaimsToken() throws ClientProtocolException, IOException {
-		String baseUri = "https://accounts.auth.konycloud.com/login";//"https://accounts.auth.qa-konycloud.com/login";
+		String baseUri = "https://accounts.auth.konycloud.com/login";
+		//String baseUri = "https://accounts.auth.qa-konycloud.com/login";
 		String userId = "piyush.mittal@kony.com";
-		String password = "Krsna@29";
+		String password = "Kony@2017";
+		//String password = "Krsna@2017";
 		String claimsToken = null;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost post = new HttpPost(baseUri +  "");///authService/accounts/login");
@@ -64,10 +66,14 @@ public class ScheduledTasks extends TimerTask {
 		//https://mobilefabric-demo1.messaging.konycloud.com/api/v1
 		//https://marketplaceassets.messaging.qa-konycloud.com
 		String baseUri = "https://corpconnect.messaging.konycloud.com/api/v1/messages/push";
+		//String baseUri = "https://marketplaceassets.messaging.qa-konycloud.com/api/v1/messages/push";
 		String claimsToken = getClaimsToken();
 		for (int i = 0; i < ksids.size(); i++) {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
+			
 			String pushPayload = "{\"messageRequest\":{\"appId\":\"4144295a-040f-47ff-a51e-a1e5ba8d2759\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\""+message+"\"}}}}}";
+			
+			//String pushPayload = "{\"messageRequest\":{\"appId\":\"82c8f91d-f71d-45aa-830d-6221bf8647a7\",\"global\":{},\"messages\":{\"message\":{\"expiryTimestamp\":\"0\",\"overrideMessageId\":\"0\",\"startTimestamp\":\"0\",\"type\":\"PUSH\",\"subscribers\":{\"subscriber\":{\"ksid\":"+ksids.get(i)+"}},\"platformSpecificProps\":{},\"content\":{\"mimeType\":\"text/plain\",\"priorityService\":\"false\",\"data\":\""+message+"\"}}}}}";
 			HttpPost post = new HttpPost(baseUri + "");// "/kpns/api/v1/messages/push");
 			post.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 			post.setHeader("X-Kony-Authorization", claimsToken);
@@ -75,7 +81,7 @@ public class ScheduledTasks extends TimerTask {
 			CloseableHttpResponse httpResponse = httpclient.execute(post);
 
 			String response = EntityUtils.toString(httpResponse.getEntity());
-			//System.out.println(response);
+			System.out.println(response);
 		}
 
 	}
@@ -84,9 +90,9 @@ public class ScheduledTasks extends TimerTask {
 		try {
 			ArrayList<String> ksids = new ArrayList<String>();
 			//8966137396409634755
-			ksids.add("8285657837679045502");
-			ksids.add("8285658679695539674");
-			ksids.add("8285629191625397758");
+			//ksids.add("piyush.mittal@Kony.com");
+			ksids.add("7413834355772817398");
+//			ksids.add("8285629191625397758");
 			
 			triggerPush(ksids,"Testing");
 		} catch (IOException e) {

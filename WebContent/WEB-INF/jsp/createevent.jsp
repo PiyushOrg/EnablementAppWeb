@@ -132,7 +132,7 @@
 									</dt>
 									<dd>
 										<!-- <input type="textarea" name="event_description" required /> -->
-										<textarea rows="6" cols="50" name="event_description"></textarea>
+										<input type="textarea" rows="6" cols="50" name="event_description"/>
 									</dd>
 									<dt>
 										<label for="event_description"> Location </label>

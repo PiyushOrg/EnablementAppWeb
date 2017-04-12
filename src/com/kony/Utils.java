@@ -25,6 +25,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -44,6 +45,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kony.hibernate.AccessTokens;
 import com.kony.hibernate.Events;
 import com.kony.hibernate.Feedbacks;
 import com.kony.hibernate.QRInfo;
@@ -581,8 +583,51 @@ public class Utils {
 		return Response.status(200).entity("{\"message\":\"Event deleted\"}").build();
 	}
 	
+	@GET
+	@Path("/epochtime")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTime()
+			throws IOException {
+	    long epochtime = System.currentTimeMillis();
+		return Response.status(200).entity("{\"time\":\""+epochtime+"\"}").build();
+	}
+	
+	@PUT
+	@Path("/updatetoken")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateToken(@FormParam("user_id") String user_id,@FormParam("token") String token)
+			throws IOException {
+		System.out.println("user id is"+user_id);
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+
+		
+		user_id = user_id.toLowerCase();
+		Criteria cr = session.createCriteria(AccessTokens.class);
+		cr.add(Restrictions.eq("user_id", user_id));
+		List<AccessTokens> accessTokens = cr.list();
+		if (accessTokens.size() == 0) {
+			AccessTokens auth = new AccessTokens();
+			auth.setUser_id(user_id);
+			auth.setToken(token);
+			session.save(auth);
+			t.commit();
+		}else{
+			AccessTokens auth = accessTokens.get(0);
+			auth.setToken(token);
+			session.save(auth);
+			t.commit();
+		}
+		
+		session.close();
+		return Response.status(200).entity("{\"message\":\"updated successfully\"}").build();
+	}
+	
 	public static void main(String args[]){
 		//MailQueue.getInstance().add("piyush.mittal@kony.com", "Bugbash event subscribed.\n");
 
 	}
+	
+	
 }
